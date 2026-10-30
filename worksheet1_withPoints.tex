@@ -1,0 +1,180 @@
+\documentclass{ximera}
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+% \usepackage{multicol}
+\begin{document}
+
+\title{Exam 1}
+
+\begin{abstract}
+Solve the following problems. A $3\times 5$ notecard is allowed. If you put any work you want graded on scratch paper, turn it in with the exam, clearly labeling which problem it belongs to. The exam is worth 100 points.
+\end{abstract}
+\maketitle
+
+%---------------------------------------------------------------
+% Problem 1: SVD (20 pts)
+%---------------------------------------------------------------
+\begin{exercise}
+\textbf{(20 points)} Consider the matrix
+\begin{align*}
+    B = \begin{bmatrix}
+            3 & 0 & 0 \\ 0 & 2 & 0
+        \end{bmatrix}.
+\end{align*}
+\begin{enumerate}
+    \item (10 pt) Compute the \underline{reduced} SVD for $B$.
+    \vfill
+    \item (10 pt) Compute the \underline{full} SVD for $B$.
+    \vfill
+\end{enumerate}
+\end{exercise}
+
+\newpage
+
+%---------------------------------------------------------------
+% Problem 2: Rank (5 pts)
+%---------------------------------------------------------------
+\begin{exercise}
+\textbf{(5 points)} (Circle the correct answer.) The rank of a matrix $A \in \mathbb{R}^{m \times n}$
+is equal to the number of:
+\begin{multicols}{2}
+\begin{enumerate}
+    \item Nonzero entries of $A$.
+    \item Nonzero singular values of $A$.
+    \item Columns of $A$.
+    \item Eigenvalues of $A$.
+\end{enumerate}
+\end{multicols}
+\end{exercise}
+
+%---------------------------------------------------------------
+% Problem 3: Induced norm (10 pts)
+%---------------------------------------------------------------
+\begin{exercise}
+\textbf{(10 points)} (Circle all correct answers.) Let $A \in \mathbb{C}^{m\times n}$. The induced norm of $A$ can be computed as
+\begin{multicols}{2}
+\begin{enumerate}
+    \item $\sup_{\|x\| = 1} \|Ax\|$
+    \item $\max_{\|x\| \leq 1} \|Ax\|/\|x\|$
+    \item $\max_{\stackrel{\|x\| \leq 1}{x \neq 0}}  \|Ax\|/\|x\|$
+    \item $\min_{\|x\| \geq 1} \|Ax\|/\|x\|$
+    \item $\sup_{\stackrel{x \in \mathbb{C}^n}{x \neq 0}} \|Ax\|/\|x\|$
+    \item $\sup_{\stackrel{x \in \mathbb{C}^m}{x \neq 0}} \|Ax\|/\|x\|$
+\end{enumerate}
+\end{multicols}
+\end{exercise}
+
+%---------------------------------------------------------------
+% Problem 4: Floating point (20 pts)
+%---------------------------------------------------------------
+\begin{exercise}
+\textbf{(20 points)} Assume IEEE arithmetic with round-to-nearest, ties-to-even, and that no overflow or underflow occurs, so that
+\begin{align}\label{flopFxn}
+    \text{fl}(x \; \odot\; y) = (x \; \odot\; y)(1+\delta)
+\end{align}
+where $|\delta| < \epsilon$, $\epsilon$ represents the maximum relative representation error and $\odot = +, - , \times, /$. Assume $a$, $b$, and $c$ are normalized floating point numbers (and that no exception occurs in the stated operations). Determine if the following statements are true/false, and \underline{justify} your answer. (\textit{Hint: Remember to just use the expression \eqref{flopFxn} with a different $\delta$ for each application of $\text{fl}()$ to justify the truth/falsity of each statement.})
+\begin{enumerate}
+    \item (6 pt) $\text{fl}(a \cdot a) = \text{fl}(\text{fl}(a)^2)$
+    \vfill
+    \item (7 pt) $\text{fl}((a+b)+c) = \text{fl}(a+(b+c))$
+    \vfill
+    \item (7 pt) If $a,b>0$, then $\text{fl}({a+b}) \geq \max\{a,b\}$
+    \vfill
+\end{enumerate}
+\end{exercise}
+
+\newpage
+%---------------------------------------------------------------
+% Problem 5: QR (25 pts)
+%---------------------------------------------------------------
+\begin{exercise}
+\textbf{(25 points)}
+\begin{enumerate}
+\item Assume $A \in \mathbb{R}^{m\times n}$ has full column rank, where $m\geq n$. Fill in the six blanks in the pseudocode using the words in the word bank below. Some words may be used more than once, or not at all. (15 pt, 2.5 pt per blank)
+
+\begin{center}
+\textbf{Word Bank}\\[0.5em]
+\fbox{ \begin{minipage}{0.85\textwidth} \centering
+orthogonal \quad projection \quad transpose \quad upper triangular \quad normalization \quad orthonormal \quad dot product \quad lower triangular \quad norm \quad diagonal
+\end{minipage} }
+\end{center}
+
+\begin{verbatim}
+    Algorithm QR(A):
+
+
+# Step 1: Initialize Q and R
+Initialize Q as an m x n matrix
+Initialize R as an n x n matrix
+
+# Step 2: Orthogonalize the columns of A
+For j = 1, ..., n:
+
+    v = A[:,j]
+
+    # Step 3: Compute projections onto previous
+    #         ________ columns of Q
+    For i = 1, ..., j-1:
+
+        R[i,j] = ______________(Q[:,i], A[:,j])
+
+        # Step 4: Subtract the ___________ component
+        v = v - R[i,j] * Q[:,i]
+
+    # Step 5: Compute the _________ of the updated vector
+    R[j,j] = ________(v)
+
+    # Step 6: Perform ___________
+    Q[:,j] = v / R[j,j]
+
+# Step 7: Return the decomposition
+Return Q, R
+\end{verbatim}
+
+\item (10 pt, 2.5 pt per blank) Complete the following statements about the QR decomposition:
+
+\begin{enumerate}
+    \item The columns of $Q$ are \verb|___________|.
+    \item The matrix $R$ is \verb|___________|.
+    \item The matrix $Q$ satisfies $Q^TQ = $ \verb|___________|.
+    \item The original matrix can be recovered using $A = $ \verb|___________|.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+
+
+
+%---------------------------------------------------------------
+% Problem 6: FLOP counting (20 pts)
+%---------------------------------------------------------------
+\begin{exercise}
+\textbf{(20 points)}
+
+\textbf{Assumptions:} Each addition and each multiplication counts as one FLOP. Loop indexing, comparisons, and assignments (including $y[i]=0$) are not counted.
+
+Consider the following algorithm for computing $y = Ax$, where $A$ is $n\times n$ and $x$ is a vector of length $n$.
+
+\begin{algorithm}
+\caption{Matrix-Vector Multiplication}
+\begin{algorithmic}[1]
+\For{$i=1,\ldots,n$}
+    \State $y[i] = 0$
+    \For{$k=1,\ldots,n$}
+        \State $y[i] = y[i] + A[i,k]\cdot x[k]$
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{enumerate}
+    \item (5 pt) How many times is line 4 executed?
+    \vfill
+    \item (5 pt) How many FLOPs are performed each time line 4 is executed?
+    \vfill
+    \item (5 pt) What is the total number of FLOPs as a function of $n$?
+    \vfill
+    \item (5 pt) What is the computational complexity (Big-O notation) of this algorithm?
+    \vfill
+\end{enumerate}
+\end{exercise}
+\end{document}
